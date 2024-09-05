@@ -1,3 +1,93 @@
-[gd_scene format=3 uid="uid://c26pitgway4xf"]
+[gd_scene load_steps=12 format=3 uid="uid://c26pitgway4xf"]
+
+[ext_resource type="Script" path="res://scenes/main_game.gd" id="1_a6vkr"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="1_j1dwf"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="2_6er7l"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="3_sauq5"]
+[ext_resource type="PackedScene" uid="uid://dksmeaojaieps" path="res://player/player.tscn" id="4_haqni"]
+[ext_resource type="PackedScene" uid="uid://bc47v487f2iw1" path="res://boss/boss.tscn" id="6_jd7aj"]
+[ext_resource type="PackedScene" uid="uid://c7j81bfog8ykp" path="res://health_bar.tscn" id="6_n63kp"]
+[ext_resource type="Script" path="res://scenes/progress_bar.gd" id="7_lfu80"]
+[ext_resource type="PackedScene" uid="uid://s2b770eegm35" path="res://boss/boss_node.tscn" id="9_kh3e3"]
+
+[sub_resource type="Resource" id="Resource_tgq1j"]
+script = ExtResource("3_sauq5")
+duration = 1.0
+transition = 0
+ease = 2
+
+[sub_resource type="Resource" id="Resource_ofags"]
+script = ExtResource("3_sauq5")
+duration = 1.0
+transition = 0
+ease = 2
 
 [node name="MainGame" type="Node2D"]
+script = ExtResource("1_a6vkr")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+physics_interpolation_mode = 1
+position = Vector2(325.5, -468)
+zoom = Vector2(0.5, 0.5)
+
+[node name="PhantomCameraHost" type="Node" parent="Camera2D"]
+script = ExtResource("1_j1dwf")
+
+[node name="PlayerCamera" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
+visible = false
+script = ExtResource("2_6er7l")
+follow_mode = 2
+follow_target = NodePath("../Player")
+zoom = Vector2(0.25, 0.25)
+tween_resource = SubResource("Resource_tgq1j")
+
+[node name="PlayerAndBossCamera" type="Node2D" parent="." node_paths=PackedStringArray("follow_targets")]
+position = Vector2(325.5, -468)
+script = ExtResource("2_6er7l")
+follow_mode = 3
+follow_targets = [NodePath("../Player"), NodePath("../Boss")]
+zoom = Vector2(0.5, 0.5)
+tween_resource = SubResource("Resource_ofags")
+
+[node name="Player" parent="." instance=ExtResource("4_haqni")]
+
+[node name="Boss" parent="." instance=ExtResource("6_jd7aj")]
+position = Vector2(651, -936)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HealthBar" parent="CanvasLayer" instance=ExtResource("6_n63kp")]
+
+[node name="ProgressBar" parent="CanvasLayer/HealthBar/MarginContainer/HBoxContainer" index="2" node_paths=PackedStringArray("area_2d")]
+script = ExtResource("7_lfu80")
+area_2d = NodePath("../../../../../Boss/Area2D")
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="BossNode" parent="Node2D" instance=ExtResource("9_kh3e3")]
+position = Vector2(-1824, -1940)
+
+[node name="BossNode2" parent="Node2D" instance=ExtResource("9_kh3e3")]
+position = Vector2(-423, -821)
+
+[node name="BossNode6" parent="Node2D" instance=ExtResource("9_kh3e3")]
+position = Vector2(1301, -897)
+
+[node name="BossNode7" parent="Node2D" instance=ExtResource("9_kh3e3")]
+position = Vector2(1296, 403)
+
+[node name="BossNode8" parent="Node2D" instance=ExtResource("9_kh3e3")]
+position = Vector2(-1047, 252)
+
+[node name="BossNode3" parent="Node2D" instance=ExtResource("9_kh3e3")]
+position = Vector2(2626, 1169)
+
+[node name="BossNode4" parent="Node2D" instance=ExtResource("9_kh3e3")]
+position = Vector2(-1910, 1109)
+
+[node name="BossNode5" parent="Node2D" instance=ExtResource("9_kh3e3")]
+position = Vector2(2319, -2026)
+
+[editable path="Player"]
+[editable path="Boss"]
+[editable path="CanvasLayer/HealthBar"]

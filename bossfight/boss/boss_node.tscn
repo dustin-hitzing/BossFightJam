@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://s2b770eegm35"]
+
+[node name="BossNode" type="Node2D" groups=["boss_node"]]

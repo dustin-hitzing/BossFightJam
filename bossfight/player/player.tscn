@@ -1,0 +1,72 @@
+[gd_scene load_steps=12 format=3 uid="uid://dksmeaojaieps"]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_5owjo"]
+[ext_resource type="Texture2D" uid="uid://cocxnxefcyita" path="res://player/ghost_pc_spritesheet.png" id="2_mmwip"]
+[ext_resource type="Script" path="res://player/shooter.gd" id="3_fxi05"]
+[ext_resource type="PackedScene" uid="uid://bbnr7nuwiv3jo" path="res://player/projectile.tscn" id="4_w7dhp"]
+[ext_resource type="Texture2D" uid="uid://13u11my0xoq8" path="res://player/crosshair_cursor_v2.png" id="5_1hasy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ovcr6"]
+atlas = ExtResource("2_mmwip")
+region = Rect2(0, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5i2sa"]
+atlas = ExtResource("2_mmwip")
+region = Rect2(512, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_65lkl"]
+atlas = ExtResource("2_mmwip")
+region = Rect2(0, 512, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lle84"]
+atlas = ExtResource("2_mmwip")
+region = Rect2(512, 512, 512, 512)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f5hp3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ovcr6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5i2sa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_65lkl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lle84")
+}],
+"loop": true,
+"name": &"default",
+"speed": 4.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_aiedw"]
+radius = 55.0
+height = 184.0
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_5owjo")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.4, 0.4)
+sprite_frames = SubResource("SpriteFrames_f5hp3")
+autoplay = "default"
+frame_progress = 0.190973
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-5, -9)
+shape = SubResource("CapsuleShape2D_aiedw")
+
+[node name="Shooter" type="Node2D" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("3_fxi05")
+player = NodePath("..")
+orbit_radius = 200.0
+projectile_scene = ExtResource("4_w7dhp")
+projectile_speed = 1000.0
+
+[node name="Icon" type="Sprite2D" parent="Shooter"]
+position = Vector2(-399, -284)
+scale = Vector2(0.570312, 0.546875)
+texture = ExtResource("5_1hasy")

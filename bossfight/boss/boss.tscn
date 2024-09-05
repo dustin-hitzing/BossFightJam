@@ -1,0 +1,86 @@
+[gd_scene load_steps=15 format=3 uid="uid://bc47v487f2iw1"]
+
+[ext_resource type="Texture2D" uid="uid://x2vr6vre30q4" path="res://boss/drbossIdleSpriteSheet.png" id="1_dpg0l"]
+[ext_resource type="Script" path="res://boss/boss.gd" id="1_eoufx"]
+[ext_resource type="Script" path="res://boss/damagable.gd" id="2_7apyj"]
+[ext_resource type="AudioStream" uid="uid://bd73owpl7aevl" path="res://sounds/PUNCH_SQUELCH_HEAVY_05.wav" id="4_o55u4"]
+[ext_resource type="PackedScene" uid="uid://c5a1d6wra1wae" path="res://lightning_attack.tscn" id="5_vjfbc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5rlri"]
+atlas = ExtResource("1_dpg0l")
+region = Rect2(0, 0, 1024, 1024)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_26p41"]
+atlas = ExtResource("1_dpg0l")
+region = Rect2(1024, 0, 1024, 1024)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c1gkl"]
+atlas = ExtResource("1_dpg0l")
+region = Rect2(2048, 0, 1024, 1024)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6nx75"]
+atlas = ExtResource("1_dpg0l")
+region = Rect2(3072, 0, 1024, 1024)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_suo66"]
+atlas = ExtResource("1_dpg0l")
+region = Rect2(4096, 0, 1024, 1024)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ywrt"]
+atlas = ExtResource("1_dpg0l")
+region = Rect2(5120, 0, 1024, 1024)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2avgk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5rlri")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_26p41")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c1gkl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6nx75")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_suo66")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ywrt")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 6.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jnx3g"]
+size = Vector2(771, 764)
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_qaeb0"]
+random_pitch = 1.3
+streams_count = 1
+stream_0/stream = ExtResource("4_o55u4")
+
+[node name="Boss" type="Node2D"]
+script = ExtResource("1_eoufx")
+lightning_attack = ExtResource("5_vjfbc")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_2avgk")
+animation = &"Idle"
+autoplay = "Idle"
+frame_progress = 0.842141
+
+[node name="Area2D" type="Area2D" parent="." groups=["boss"]]
+script = ExtResource("2_7apyj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(24.5, -81)
+shape = SubResource("RectangleShape2D_jnx3g")
+debug_color = Color(0.7, 0, 0.111639, 0.42)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_qaeb0")

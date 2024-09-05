@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://c5a1d6wra1wae"]
+
+[ext_resource type="Texture2D" uid="uid://csuiuotcmcuva" path="res://boss/lightningBoltAttack.png" id="1_dc418"]
+[ext_resource type="Script" path="res://lightning_attack.gd" id="2_y8hm7"]
+[ext_resource type="AudioStream" uid="uid://rxqkv6mqhtop" path="res://sounds/PUNCH_ELECTRIC_HEAVY_05.wav" id="3_ljati"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4p6wi"]
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1000.0
+emission_ring_radius = 1000.0
+emission_ring_inner_radius = 750.0
+angle_min = -419.0
+angle_max = 292.9
+inherit_velocity_ratio = 2.0
+spread = 95.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -27.27
+radial_accel_max = 28.18
+turbulence_enabled = true
+turbulence_noise_strength = 2.67
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iyens"]
+atlas = ExtResource("1_dc418")
+region = Rect2(1012.14, 60.25, 518.749, 334.5)
+
+[node name="LightningAttack" type="GPUParticles2D"]
+amount = 500
+process_material = SubResource("ParticleProcessMaterial_4p6wi")
+texture = SubResource("AtlasTexture_iyens")
+speed_scale = 5.53
+explosiveness = 0.11
+script = ExtResource("2_y8hm7")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_ljati")
+bus = &"HARD_SFX"

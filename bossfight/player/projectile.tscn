@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bbnr7nuwiv3jo"]
+
+[ext_resource type="Script" path="res://player/projectile.gd" id="1_osmsu"]
+[ext_resource type="Texture2D" uid="uid://c2s3832ruy34r" path="res://player/ectoplasm.png" id="2_hwxt8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c5vru"]
+size = Vector2(127, 127)
+
+[node name="Projectile" type="Area2D"]
+script = ExtResource("1_osmsu")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_hwxt8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, -2.5)
+shape = SubResource("RectangleShape2D_c5vru")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
